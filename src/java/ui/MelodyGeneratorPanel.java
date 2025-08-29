@@ -18,13 +18,7 @@ public class MelodyGeneratorPanel extends JPanel {
 
     private MelodyGenerator melodyGenerator = new MelodyGenerator();
 
-    ProgressionMusicScoreComponent scorePanel = new ProgressionMusicScoreComponent(){
-        @Override
-        protected List<Note> getTopBarNotes(Note progressionNote) {
-            //TODO:
-            return melodyGenerator.generateMelodyProgression(CircleOfFifthsKeyFile.sharpMinor(KeyFile.C));
-        }
-    };
+
 
     class ProgressionListPanel extends JPanel {
 
@@ -61,17 +55,14 @@ public class MelodyGeneratorPanel extends JPanel {
     }
 
     private void setProgressions(List<CircleOfFifthsKeyFile> progressionKeys) {
-        scorePanel.reset();
-        scorePanel.setProgressions(progressionKeys);
+        removeAll();
+        ProgressionMusicScoreComponent scorePanel = new ProgressionMusicScoreComponent();
+        List<Note> notes = melodyGenerator.generateMelodyProgression(CircleOfFifthsKeyFile.sharpMinor(KeyFile.C));
+        scorePanel.setProgressions(progressionKeys, notes);
+        scorePanel.setPreferredSize(new Dimension(progressionKeys.size()* 175, 400));
+        JScrollPane progressionScroller = new JScrollPane(scorePanel);
+        add(progressionScroller, BorderLayout.CENTER);
 
-       /* List<Note> notes = melodyGenerator.generateMelodyProgression(progressionKeys);
-        //System.out.println(notes);
-        int noteIndex = 0;
-        for (Note note : notes) {
-            scorePanel.addNote(1, noteIndex++, note);
-        }*/
-
-        scorePanel.repaint();
     }
 
     public MelodyGeneratorPanel(JFrame parentWindow) {
@@ -79,7 +70,7 @@ public class MelodyGeneratorPanel extends JPanel {
         setLayout(new BorderLayout());
         add(new ProgressionListPanel(), BorderLayout.LINE_START);
 
-        add(scorePanel, BorderLayout.CENTER);
+
 
     }
 }
