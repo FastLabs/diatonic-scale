@@ -34,7 +34,7 @@ public class CircleOfFifthsPanel extends JPanel {
                 Container dialogContainer = dialog.getContentPane();
                 ProgressionMusicScoreComponent scorePanel = new ProgressionMusicScoreComponent();
                 scorePanel.setLocation(new Point(10, 10));
-                scorePanel.setProgressions(progressions, new ArrayList<>());
+                scorePanel.setProgressions(progressions);
                 JScrollPane progressionScroller = new JScrollPane(scorePanel);
                 scorePanel.setPreferredSize(new Dimension(65 * progressions.size(), 300));
                 dialogContainer.add(progressionScroller);

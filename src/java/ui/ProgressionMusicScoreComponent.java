@@ -16,13 +16,13 @@ class ProgressionMusicScoreComponent extends MusicScoreComponent {
             KeyFile.B, -8, KeyFile.C, -7, KeyFile.D, -6, KeyFile.E, -5, KeyFile.G, -10);
 
 
-    public void setProgressions(List<CircleOfFifthsKeyFile> bottomBarNotes, List<Note> topBarNotes) {
+    public void setProgressions(List<CircleOfFifthsKeyFile> bottomBarNotes) {
         int noteIndex = 0;
         int columnPosition = 0;
         java.util.List<Note> notes = getProgressionNotes(bottomBarNotes);
         for (Note note : notes) {
             int linePosition = getScoreNotePosition(note);
-          //  List<Note> topBarNotes = getTopBarNotes(note);
+            List<Note> topBarNotes = getTopBarNotes(note);
             addTopBarNotes(columnPosition, topBarNotes);
             columnPosition = topBarNotes.size() < 1 ? columnPosition + 1 : (columnPosition + topBarNotes.size());
             System.out.println(topBarNotes + " " + columnPosition);
@@ -39,6 +39,10 @@ class ProgressionMusicScoreComponent extends MusicScoreComponent {
         }
         //adding last bar
         //    showBar(columnPosition +1);
+    }
+
+    protected  List<Note> getTopBarNotes(Note note) {
+        return new ArrayList<>();
     }
 
     private void addTopBarNotes(int startColumn, List<Note> notes) {
