@@ -17,9 +17,8 @@ class ProgressionMusicScoreComponent extends MusicScoreComponent {
 
 
     public void setProgressions(List<CircleOfFifthsKeyFile> bottomBarNotes) {
-        int noteIndex = 0;
         int columnPosition = 0;
-        java.util.List<Note> notes = getProgressionNotes(bottomBarNotes);
+        List<Note> notes = getProgressionNotes(bottomBarNotes);
         for (Note note : notes) {
             int linePosition = getScoreNotePosition(note);
             List<Note> topBarNotes = getTopBarNotes(note);
@@ -34,11 +33,7 @@ class ProgressionMusicScoreComponent extends MusicScoreComponent {
                 Note newNote = new Note(newKeyFile, false, false, RhythmType.SEMIBREVE, note.getOctave());
                 addNote(newLinePosition, (columnPosition - topBarNotes.size() / 2) - 1, newNote);
             }
-            // showBar(columnPosition);
-            noteIndex++;
         }
-        //adding last bar
-        //    showBar(columnPosition +1);
     }
 
     protected  List<Note> getTopBarNotes(Note note) {
@@ -58,8 +53,8 @@ class ProgressionMusicScoreComponent extends MusicScoreComponent {
         addScoreBar(columnPosition, 0, 8);
     }
 
-    private java.util.List<Note> getProgressionNotes(List<CircleOfFifthsKeyFile> progressions) {
-        java.util.List<Note> progressionNotes = new ArrayList<>();
+    private List<Note> getProgressionNotes(List<CircleOfFifthsKeyFile> progressions) {
+        List<Note> progressionNotes = new ArrayList<>();
         for (CircleOfFifthsKeyFile keyFile : progressions) {
             Note newNote = new Note(keyFile.getKeyFile(), false, keyFile.isSharp(), RhythmType.SEMIBREVE, 2);
             newNote.setDiminished(keyFile.isDiminished());

@@ -17,15 +17,16 @@ public class MelodyGeneratorPanel extends JPanel {
     private JFrame parentWindow;
 
     private MelodyGenerator melodyGenerator = new MelodyGenerator();
-    private ProgressionMusicScoreComponent scorePanel;
 
 
+    private JScrollPane progressionScroller;
     public JPanel getControlPanel() {
         JPanel controlPanel = new JPanel();
 
 
         JButton addProgressionBtn = new JButton("Open Progression");
         addProgressionBtn.addActionListener(ev -> {
+            //Displaying the file selection dialog
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showOpenDialog(parentWindow) == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -37,7 +38,7 @@ public class MelodyGeneratorPanel extends JPanel {
                         CircleOfFifthsKeyFile key = CircleOfFifthsKeyFile.fromString(progression);
                         progressionKeys.add(key);
                     }
-                    setProgressions(progressionKeys);
+                    setProgressions(progressionKeys);// onc the file is loaded, the new progressions are displayed
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -50,11 +51,11 @@ public class MelodyGeneratorPanel extends JPanel {
     }
 
     private void setProgressions(List<CircleOfFifthsKeyFile> progressionKeys) {
-        if (scorePanel != null) {
-            remove(scorePanel);
-            scorePanel = null;
+        if (progressionScroller != null) {
+            remove(progressionScroller);
+            progressionScroller = null;
         }
-        scorePanel = new ProgressionMusicScoreComponent() {
+        ProgressionMusicScoreComponent scorePanel = new ProgressionMusicScoreComponent() {
             @Override
             protected List<Note> getTopBarNotes(Note note) {
                 return melodyGenerator.generateMelodyProgression(CircleOfFifthsKeyFile.sharpMinor(KeyFile.C));
@@ -62,7 +63,7 @@ public class MelodyGeneratorPanel extends JPanel {
         };
         scorePanel.setProgressions(progressionKeys);
         scorePanel.setPreferredSize(new Dimension(progressionKeys.size() * 175, 300));
-        JScrollPane progressionScroller = new JScrollPane(scorePanel);
+         progressionScroller = new JScrollPane(scorePanel);
         add(progressionScroller, BorderLayout.CENTER);
         validate();
 
